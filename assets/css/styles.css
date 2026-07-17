@@ -1,0 +1,227 @@
+/* ============================================================
+   styles.css — Estilos globales
+   Tema: COPA MEMORIA · Mundial 2026
+   Noche de estadio + césped de cancha + dorado de trofeo
+   ============================================================ */
+
+/* ----- Reset básico ----- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* padding y borde dentro de las dimensiones */
+}
+
+/* ----- Variables nativas CSS3 (tema centralizado) ----- */
+:root {
+    --stadium: #04150c;        /* noche de estadio (fondo de página) */
+    --stadium-2: #0a2e1a;      /* degradado del fondo */
+    --grass: #1b7f3b;          /* césped franja clara */
+    --grass-dark: #156b30;     /* césped franja oscura */
+    --green-900: #0b3d20;      /* verde profundo (cabeceras) */
+    --green-600: #16a34a;      /* verde de acción */
+    --gold: #fbbf24;           /* dorado trofeo */
+    --gold-dark: #d97706;
+    --panel: #fdfdf8;          /* panel principal (blanco cancha) */
+    --panel-soft: #eef5ee;     /* superficies suaves */
+    --ink: #12291b;            /* texto oscuro sobre panel */
+    --ink-muted: #5c7263;
+    --danger: #dc2626;
+    --led: #fde047;            /* dígitos LED del marcador */
+
+    --grid-cols: 4;            /* columnas del tablero (dinámico por JS) */
+    --card-size: 108px;
+    --radius: 12px;
+    --shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+}
+
+/* ----- Base ----- */
+body {
+    font-family: 'Segoe UI', system-ui, Tahoma, sans-serif;
+    background:
+        radial-gradient(ellipse at 50% -20%, rgba(251, 191, 36, 0.12), transparent 55%),
+        linear-gradient(165deg, var(--stadium) 0%, var(--stadium-2) 55%, #0d3b22 100%);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#app-main {
+    flex: 1;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 20px;
+}
+
+/* ----- Panel principal (blanco cancha con filo dorado) ----- */
+.panel {
+    background: var(--panel);
+    border-radius: 16px;
+    border-top: 6px solid var(--gold);
+    padding: 28px;
+    box-shadow: var(--shadow);
+}
+
+/* ----- Sistema de pantallas (SPA) ----- */
+.screen {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.screen.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ----- Títulos estilo transmisión deportiva ----- */
+.board-title {
+    font-family: 'Arial Black', 'Segoe UI', sans-serif;
+    font-size: 2.1rem;
+    font-style: italic;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--green-900);
+    text-align: center;
+    margin: 24px 0 4px;
+}
+
+.board-subtitle {
+    text-align: center;
+    color: var(--ink-muted);
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.preview-message {
+    display: block;
+    color: var(--gold-dark);
+    font-weight: 800;
+    min-height: 1.4em;
+}
+
+/* ----- Marcador estilo estadio ----- */
+.scoreboard {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 14px;
+    flex-wrap: wrap;
+    background: var(--green-900);
+    border: 3px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+}
+
+.sb-item,
+.sb-timer-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 18px;
+}
+
+.sb-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #9fd6b0;
+}
+
+.sb-value {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 1.7rem;
+    color: #ffffff;
+}
+
+.sb-timer-box {
+    background: #02120a;
+    border: 2px solid rgba(251, 191, 36, 0.5);
+    border-radius: 10px;
+    padding: 8px 26px;
+}
+
+.sb-timer {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    color: var(--led);
+    text-shadow: 0 0 12px rgba(253, 224, 71, 0.6);
+}
+
+/* ----- Tablero: la cancha (CSS Grid dinámico) ----- */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-cols), var(--card-size));
+    gap: 14px;
+    justify-content: center;
+    place-items: center;
+    padding: 26px 18px;
+    perspective: 1000px; /* profundidad 3D para el flip */
+    min-height: 200px;
+}
+
+/* Césped con franjas de cancha y línea blanca perimetral */
+.pitch {
+    background: repeating-linear-gradient(
+        0deg,
+        var(--grass) 0px,
+        var(--grass) 44px,
+        var(--grass-dark) 44px,
+        var(--grass-dark) 88px
+    );
+    border: 4px solid #ffffff;
+    outline: 4px solid var(--green-900);
+    border-radius: var(--radius);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.25);
+}
+
+.board-hint {
+    grid-column: 1 / -1;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    padding: 46px 10px;
+}
+
+/* ----- Responsive ----- */
+@media (max-width: 640px) {
+    :root {
+        --card-size: 62px;
+    }
+
+    .panel {
+        padding: 14px;
+    }
+
+    .board-title {
+        font-size: 1.4rem;
+    }
+
+    .sb-timer {
+        font-size: 1.4rem;
+        letter-spacing: 3px;
+    }
+
+    .sb-value {
+        font-size: 1.2rem;
+    }
+
+    .game-board {
+        gap: 8px;
+        padding: 14px 8px;
+    }
+}

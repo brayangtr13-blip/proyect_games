@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copa Memoria | Mundial 2026</title>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/css/components.css">
+</head>
+<body>
+
+    <!-- Nav inyectado dinámicamente por components.js -->
+    <header id="app-nav"></header>
+
+    <main id="app-main">
+
+        <!-- ============ VISTA: PARTIDO (JUEGO) ============ -->
+        <section id="screen-game" class="screen active">
+            <div class="panel">
+
+                <!-- Marcador estilo estadio -->
+                <div class="scoreboard">
+                    <div class="sb-item">
+                        <span class="sb-label">Movimientos</span>
+                        <strong id="stat-moves" class="sb-value">0</strong>
+                    </div>
+                    <div class="sb-timer-box">
+                        <span class="sb-label">⏱ Tiempo de juego</span>
+                        <span id="stat-timer" class="sb-timer">00:00:00</span>
+                    </div>
+                    <div class="sb-item">
+                        <span class="sb-label">Pares</span>
+                        <strong id="stat-pairs" class="sb-value">0/0</strong>
+                    </div>
+                </div>
+
+                <h1 class="board-title">⚽ COPA MEMORIA</h1>
+                <p class="board-subtitle">Encuentra las parejas de cracks y levanta la copa
+                    <span id="preview-message" class="preview-message"></span>
+                </p>
+
+                <!-- Selector de dificultad: fases del torneo -->
+                <div id="difficulty-group" class="difficulty-group" role="group" aria-label="Dificultad">
+                    <button class="pill" data-level="1">
+                        <span class="pill-name">GRUPOS</span>
+                        <small>4 parejas · 8 cartas</small>
+                    </button>
+                    <button class="pill active" data-level="2">
+                        <span class="pill-name">OCTAVOS</span>
+                        <small>6 parejas · 12 cartas</small>
+                    </button>
+                    <button class="pill" data-level="3">
+                        <span class="pill-name">SEMIFINAL</span>
+                        <small>8 parejas · 16 cartas</small>
+                    </button>
+                    <button class="pill" data-level="4">
+                        <span class="pill-name">LA FINAL</span>
+                        <small>10 parejas · 20 cartas</small>
+                    </button>
+                </div>
+
+                <!-- Acciones del partido -->
+                <div class="match-actions">
+                    <button id="btn-start" class="btn btn-kickoff">🏁 ¡KICK OFF!</button>
+                    <button id="btn-restart" class="btn btn-outline">↻ REINICIAR PARTIDO</button>
+                </div>
+
+                <!-- Tablero (cancha): las cartas se inyectan dinámicamente -->
+                <div id="game-board" class="game-board pitch">
+                    <p class="board-hint">Elige la fase del torneo y pulsa <strong>¡KICK OFF!</strong> ⚽</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ VISTA: RANKING (TOP 10) ============ -->
+        <section id="screen-scores" class="screen">
+            <div class="panel">
+                <h1 class="board-title">🏆 SALÓN DE LA FAMA — TOP 10</h1>
+                <p class="board-subtitle">Los mejores jugadores del torneo</p>
+                <!-- La tabla se inyecta dinámicamente desde components.js -->
+                <div id="scoreboard-container"></div>
+                <div class="scores-actions">
+                    <button id="btn-play-again" class="btn btn-kickoff">⚽ VOLVER A LA CANCHA</button>
+                    <button id="btn-clear-scores" class="btn btn-outline">🗑 BORRAR REGISTROS</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============ MODAL: VICTORIA + FORMULARIO DE GUARDADO ============ -->
+    <div id="win-modal" class="modal-overlay hidden">
+        <div class="modal-panel">
+            <div class="modal-trophy">🏆</div>
+            <h2>¡GOOOOL! ¡GANASTE LA COPA!</h2>
+
+            <div class="win-summary">
+                <p>Fase: <strong id="win-level"></strong></p>
+                <p>Movimientos: <strong id="win-moves"></strong></p>
+                <p>Tiempo: <strong id="win-time"></strong></p>
+                <p class="win-score">Puntuación: <strong id="win-score"></strong> pts</p>
+            </div>
+
+            <!-- Formulario de guardado: jugador + puntuación -->
+            <form id="save-form" class="save-form">
+                <div class="form-row">
+                    <label for="input-name">Jugador:</label>
+                    <input type="text" id="input-name" name="playerName"
+                           placeholder="Tu nombre de crack" maxlength="15" required>
+                </div>
+                <div class="form-row">
+                    <label for="input-score">Puntuación:</label>
+                    <input type="text" id="input-score" name="playerScore" readonly>
+                </div>
+                <button type="submit" class="btn btn-kickoff btn-block">💾 FIRMAR EN EL SALÓN DE LA FAMA</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer inyectado dinámicamente por components.js -->
+    <footer id="app-footer"></footer>
+
+    <!-- Módulo ES6: habilita import/export -->
+    <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>
